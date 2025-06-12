@@ -1,0 +1,29 @@
+body {
+  background-color: dodgerblue;
+  text-align: center;
+  background-image: url("table.jpg");
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+h1 {
+  color: #02ffff;
+}
+p {
+  color: azure;
+}
+#message-el {
+  font-size: 1.2em;
+  color: gold;
+}
+#start-btn {
+  background-color: goldenrod;
+  border-radius: 5px;
+  border: transparent;
+  width: 150px;
+  color: aliceblue;
+  padding: 4px;
+}
+
+#start-btn:hover {
+  background-color: #7feeee83;
+}
