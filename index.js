@@ -37,6 +37,7 @@ function randomCard() {
 
 //startGame funtion..............................
 function startGame() {
+  console.log("startGame");
   isAlive = true;
 
   let firstCard = randomCard();
@@ -63,6 +64,7 @@ function startGame() {
 
 //renderGame function..................................
 function renderGame() {
+  console.log("renderGame");
   //displaying cardResult, sum and cardImage in html
   cardResult.textContent = `Card: ${cards.join(",")}`;
   sumEl.textContent = `Sum: ${sum}`;
@@ -74,6 +76,7 @@ function renderGame() {
   } else if (sum === 21) {
     message = "You've got Blackjack!";
     hasBlackJack = true;
+    isAlive = false;
   } else {
     message = "You're out of the game!";
     isAlive = false;
@@ -85,13 +88,19 @@ function renderGame() {
 
 //newCard Function.........................................................
 function newCard() {
-  if (calledNewCard) {
+  if (calledNewCard && isAlive) {
+    console.log("newcard=false");
     images = [...temp2];
     call2();
-  } else call1();
+  } else {
+    console.log("newcard=true");
+    call1();
+  }
 
   function call1() {
+    console.log("call1");
     if (isAlive === true && hasBlackJack === false) {
+      console.log("call1 if");
       let newCard = randomCard();
       sum += newCard;
 
@@ -108,14 +117,28 @@ function newCard() {
       calledNewCard = true;
       //render the game again
       renderGame();
-      if (isAlive === false) images = [];
+      if (isAlive) {
+        calledNewCard = true;
+        console.log("call1 if ----> if , callledNewcard=true");
+      } else {
+        console.log("call1 if ----> else, calledNewcard=false");
+        calledNewCard = false;
+        images = [];
+      }
     } else if (isAlive === false) {
+      console.log("call1 else if");
       message = "Please start the game first!";
       messageEl.textContent = message;
+      if (isAlive === false) {
+        console.log("call1 else if ----> if");
+        images = [];
+      }
     }
   }
   function call2() {
+    console.log("call2");
     if (isAlive === true && hasBlackJack === false) {
+      console.log("call2 if");
       let newCard = randomCard();
       sum += newCard;
 
@@ -128,10 +151,20 @@ function newCard() {
       temp2 = [...images];
       //render the game again
       renderGame();
-      if (isAlive === false) images = [];
+      if (isAlive === false) {
+        console.log("call2 if----> if, calledNewCard=false");
+        images = [];
+        calledNewCard = false;
+      }
     } else if (isAlive === false) {
+      console.log("call2 else if");
       message = "Please start the game first!";
       messageEl.textContent = message;
+
+      if (isAlive === false) {
+        console.log("call1 else if ----> if");
+        images = [];
+      }
     }
   }
 }
