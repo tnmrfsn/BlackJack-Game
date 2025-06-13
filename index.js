@@ -51,14 +51,14 @@ function startgameMessage() {
 }
 
 //Ending the game by deleting images[] and setting calledNewCard false.......
-function endingGame() {
+function setInitialValues() {
   images = [];
   calledNewCard = false;
 }
 
 //startGame funtion..............................
 function startGame() {
-  if (isAlive) endingGame(); //if player starts game after previous game new card but still alive.
+  if (isAlive) setInitialValues(); //if player starts game after previous game new card but still alive.
 
   isAlive = true;
 
@@ -125,7 +125,7 @@ function newCard() {
       calledNewCard = true; //tracking if it is the first new card.
       renderGame();
 
-      if (isAlive === false) endingGame();
+      if (isAlive === false) setInitialValues();
     }
     //If player tries new card without starting new game
     else startgameMessage();
@@ -139,7 +139,7 @@ function newCard() {
       temp2 = [...images];
       calledNewCard = true;
       renderGame();
-      if (isAlive === false) endingGame();
+      if (isAlive === false) setInitialValues();
     } else startgameMessage();
   }
 }
