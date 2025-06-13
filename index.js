@@ -1,14 +1,16 @@
 let isAlive = false;
 let hasBlackJack = false;
 let isStarted = false;
+let calledNewCard = false;
 let sum = 0;
 let message = "";
 let cards = [];
 let images = [];
-let temp = []; //As I am pushing in images in start function,
+let temp1 = [];
+let temp2 = []; //As I am pushing in images in start function,
 //images[] must be cleared or everytime I call startGame() it will keep growing.
 //But if I clear images[] in startGame(), then newCard() will get an emty array
-//so before clearing images[], it is copied in temp[]
+//so before clearing images[], it is copied in temp1[]
 //and in newCard() it is copied back into images
 
 //getting access to DOM elements
@@ -83,24 +85,53 @@ function renderGame() {
 
 //newCard Function.........................................................
 function newCard() {
-  if (isAlive === true && hasBlackJack === false) {
-    let newCard = randomCard();
-    sum += newCard;
+  if (calledNewCard) {
+    images = [...temp2];
+    call2();
+  } else call1();
 
-    //pushing third card in cards
-    cards.push(newCard);
+  function call1() {
+    if (isAlive === true && hasBlackJack === false) {
+      let newCard = randomCard();
+      sum += newCard;
 
-    //retrieving the original images[] before it got deleted in startGame
-    images = [...temp];
-    //pushing new card image in images
-    images.push(
-      `<img src="card_images/${newCard}_${suit3}.png" alt="card${newCard}_${suit3}.png">  `
-    );
-    //render the game again
-    renderGame();
-    if (isAlive === false) images = [];
-  } else if (isAlive === false) {
-    message = "Please start the game first!";
-    messageEl.textContent = message;
+      //pushing third card in cards
+      cards.push(newCard);
+
+      //retrieving the original images[] before it got deleted in startGame
+      images = [...temp];
+      //pushing new card image in images
+      images.push(
+        `<img src="card_images/${newCard}_${suit3}.png" alt="card${newCard}_${suit3}.png">  `
+      );
+      temp2 = [...images];
+      calledNewCard = true;
+      //render the game again
+      renderGame();
+      if (isAlive === false) images = [];
+    } else if (isAlive === false) {
+      message = "Please start the game first!";
+      messageEl.textContent = message;
+    }
+  }
+  function call2() {
+    if (isAlive === true && hasBlackJack === false) {
+      let newCard = randomCard();
+      sum += newCard;
+
+      //pushing third card in cards
+      cards.push(newCard);
+      //pushing new card image in images
+      images.push(
+        `<img src="card_images/${newCard}_${suit3}.png" alt="card${newCard}_${suit3}.png">  `
+      );
+      temp2 = [...images];
+      //render the game again
+      renderGame();
+      if (isAlive === false) images = [];
+    } else if (isAlive === false) {
+      message = "Please start the game first!";
+      messageEl.textContent = message;
+    }
   }
 }
