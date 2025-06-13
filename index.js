@@ -131,7 +131,7 @@ function newCard() {
       if (isAlive === false) endingGame();
     }
     //If player tried new card without starting new game
-    else if (isAlive === false) startgameMessage();
+    else startgameMessage();
   }
 
   //When new card is called multiple times.....................................
@@ -143,6 +143,6 @@ function newCard() {
       calledNewCard = true;
       renderGame();
       if (isAlive === false) endingGame();
-    } else if (isAlive === false) startgameMessage();
+    } else startgameMessage();
   }
 }
