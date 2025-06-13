@@ -61,7 +61,7 @@ function endingGame() {
 
 //startGame funtion..............................
 function startGame() {
-  if (isAlive) endingGame();
+  if (isAlive) endingGame(); //if player starts game after previous game new card but still alive.
 
   isAlive = true;
 
