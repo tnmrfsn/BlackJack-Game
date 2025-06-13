@@ -4,6 +4,10 @@ let isStarted = false;
 let calledNewCard = false;
 let sum = 0;
 let message = "";
+let player = {
+  name: "Player",
+  chips: 500,
+};
 
 let cards = [];
 let images = [];
@@ -20,6 +24,7 @@ let cardResult = document.getElementById("cardResult");
 let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
 let messageEl = document.getElementById("message-el");
+let playerName = document.getElementById("playerName");
 
 function randomCard() {
   let randomNumber = Math.floor(Math.random() * 13) + 1;
@@ -91,6 +96,7 @@ function renderGame() {
   cardResult.textContent = `Card: ${cards.join(",")}`;
   sumEl.textContent = `Sum: ${sum}`;
   cardImages.innerHTML = images.join(" ");
+  playerName.textContent = `${player.name} : \$${player.chips}`;
 
   //checking the sum and udating message
   if (sum <= 20) {
