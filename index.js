@@ -10,9 +10,10 @@ let images = [];
 let temp1 = [];
 let temp2 = []; //As I am pushing in images in start function,
 //images[] must be cleared or everytime I call startGame() it will keep growing.
-//But if I clear images[] in startGame(), then newCard() will get an emty array
+//But if I clear images[] in startGame(), then newCard() will get an emty image array;
 //so before clearing images[], it is copied in temp1[]
 //and in newCard() it is copied back into images
+//temp2[] is for when newCard() is called multiple times.
 
 //getting access to DOM elements
 let cardResult = document.getElementById("cardResult");
@@ -20,15 +21,12 @@ let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
 let messageEl = document.getElementById("message-el");
 
-//function for generating random number from 1 to 13 for card numbers.........................
-
 function randomCard() {
   let randomNumber = Math.floor(Math.random() * 13) + 1;
   return randomNumber;
 }
 let cardNew = randomCard();
 
-//function for generating random numbers 1 to 4 for suit for image names.........................
 function randomSuit() {
   let randomNumber = Math.floor(Math.random() * 4) + 1;
   return randomNumber;
@@ -36,11 +34,10 @@ function randomSuit() {
 
 function pushNewCard() {
   sum += cardNew;
-  cards.push(cardNew); //pushing third card in cards
+  cards.push(cardNew);
 }
 
 function pushNewImage() {
-  //pushing new card image in images
   images.push(
     `<img src="card_images/${cardNew}_${randomSuit()}.png" alt="card${cardNew}_${randomSuit()}.png">  `
   );
@@ -130,7 +127,7 @@ function newCard() {
 
       if (isAlive === false) endingGame();
     }
-    //If player tried new card without starting new game
+    //If player tries new card without starting new game
     else startgameMessage();
   }
 
