@@ -14,7 +14,14 @@ body {
   flex-wrap: wrap;
 }
 
-h1 {
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+h1,
+a {
   color: #02ffff;
 }
 p {
