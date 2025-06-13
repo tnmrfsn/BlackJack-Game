@@ -5,25 +5,45 @@ body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 h1 {
   color: #02ffff;
 }
 p {
   color: azure;
 }
-#message-el {
+#message-el,
+#sum-el,
+#cardResult {
   font-size: 1.2em;
   color: gold;
 }
-#start-btn {
+.btn {
   background-color: goldenrod;
   border-radius: 5px;
   border: transparent;
   width: 150px;
-  color: aliceblue;
+  color: black;
   padding: 4px;
+  margin: 2px;
 }
 
-#start-btn:hover {
+.btn:hover {
   background-color: #7feeee83;
+}
+.btn:active {
+  background-color: #07fafa83;
+}
+
+#cardImages img {
+  width: 100px;
+  height: 130px;
+  margin: 10px;
 }

@@ -7,12 +7,19 @@
     <title>BlackJack Game</title>
   </head>
   <body>
-    <h1>BlackJack Game</h1>
-    <p id="message-el"><i>Want to play a round?</i></p>
-    <p>Cards:</p>
-    <p>Sum:</p>
-    <button id="start-btn" onclick="startGame()">Start Game</button>
-    <br />
+    <div class="container">
+      <h1>BlackJack Game</h1>
+      <p id="message-el"><i>Want to play a round?</i></p>
+      <button id="start-btn" class="btn" onclick="startGame()">
+        Start Game
+      </button>
+      <button id="newCard-btn" class="btn" onclick="newCard()">New Card</button>
+      <div id="cardResult"></div>
+      <div id="sum-el"></div>
+      <div id="cardImages"></div>
+      <br />
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>
