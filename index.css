@@ -52,3 +52,11 @@ p {
   height: 250px;
   margin: 10px;
 }
+
+@media screen and (max-width: 640px) {
+  #cardImages img {
+    width: 100px;
+    height: 150px;
+    margin: 5px;
+  }
+}
