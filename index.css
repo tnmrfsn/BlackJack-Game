@@ -26,10 +26,15 @@ p {
   color: gold;
 }
 .btn {
-  background-color: goldenrod;
+  font-size: 1.2rem;
+  width: auto;
+  cursor: pointer;
+  width: 200px;
+  padding: 10px 10px;
   border-radius: 5px;
+  border: none;
+  background-color: goldenrod;
   border: transparent;
-  width: 150px;
   color: black;
   padding: 4px;
   margin: 2px;
