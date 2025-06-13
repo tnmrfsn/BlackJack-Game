@@ -4,6 +4,7 @@ let isStarted = false;
 let calledNewCard = false;
 let sum = 0;
 let message = "";
+
 let cards = [];
 let images = [];
 let temp1 = [];
@@ -19,20 +20,43 @@ let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
 let messageEl = document.getElementById("message-el");
 
-//function for generating random numbers 1 to 4 for suit for image names.........................
-function randomSuit() {
-  let randomNumber = Math.floor(Math.random() * 4) + 1;
-  return randomNumber;
-}
-let suit1 = randomSuit();
-let suit2 = randomSuit();
-let suit3 = randomSuit();
-
 //function for generating random number from 1 to 13 for card numbers.........................
 
 function randomCard() {
   let randomNumber = Math.floor(Math.random() * 13) + 1;
   return randomNumber;
+}
+let cardNew = randomCard();
+
+//function for generating random numbers 1 to 4 for suit for image names.........................
+function randomSuit() {
+  let randomNumber = Math.floor(Math.random() * 4) + 1;
+  return randomNumber;
+}
+
+function pushNewCard() {
+  sum += cardNew;
+  cards.push(cardNew); //pushing third card in cards
+}
+
+function pushNewImage() {
+  //pushing new card image in images
+  images.push(
+    `<img src="card_images/${cardNew}_${randomSuit()}.png" alt="card${cardNew}_${randomSuit()}.png">  `
+  );
+}
+
+//displaying message when newCard is clicked by notAlive player.............
+function startgameMessage() {
+  message = "Please start the game first!";
+  messageEl.textContent = message;
+  images = [];
+}
+
+//Ending the game by deleting images[] and setting calledNewCard false.......
+function endingGame() {
+  images = [];
+  calledNewCard = false;
 }
 
 //startGame funtion..............................
@@ -42,10 +66,10 @@ function startGame() {
   let firstCard = randomCard();
   let secondCard = randomCard();
   images.push(
-    `<img src="card_images/${firstCard}_${suit1}.png" alt="card${firstCard}_${suit1}.png">  `
+    `<img src="card_images/${firstCard}_${randomSuit()}.png" alt="card${firstCard}_${randomSuit()}.png">  `
   );
   images.push(
-    `<img src="card_images/${secondCard}_${suit2}.png" alt="card${secondCard}_${suit2}.png">  `
+    `<img src="card_images/${secondCard}_${randomSuit()}.png" alt="card${secondCard}_${randomSuit()}.png">  `
   );
 
   cards = [firstCard, secondCard];
@@ -87,72 +111,37 @@ function renderGame() {
 //newCard Function.........................................................
 function newCard() {
   if (calledNewCard && isAlive) {
-    console.log("newcard=false");
     images = [...temp2];
     firstNewCard();
   } else {
-    console.log("newcard=true");
     notFirstNewCard();
   }
 
+  //When new card is called multiple times.....................................
   function notFirstNewCard() {
-    console.log("call1");
     if (isAlive === true && hasBlackJack === false) {
-      let newCard = randomCard();
-      sum += newCard;
+      pushNewCard();
+      images = [...temp]; //retrieving the original images[] from startGame()
+      pushNewImage();
+      temp2 = [...images]; //saving the images in temp2[] for multiple new card
 
-      //pushing third card in cards
-      cards.push(newCard);
-
-      //retrieving the original images[] before it got deleted in startGame
-      images = [...temp];
-      //pushing new card image in images
-      images.push(
-        `<img src="card_images/${newCard}_${suit3}.png" alt="card${newCard}_${suit3}.png">  `
-      );
-      temp2 = [...images];
-      calledNewCard = true;
-      //render the game again
+      calledNewCard = true; //tracking if it is the first new card.
       renderGame();
-      if (isAlive) {
-        calledNewCard = true;
-      } else {
-        calledNewCard = false;
-        images = [];
-      }
-    } else if (isAlive === false) {
-      message = "Please start the game first!";
-      messageEl.textContent = message;
-      if (isAlive === false) {
-        images = [];
-      }
+
+      if (isAlive === false) endingGame();
     }
+    //If player tried new card ithout starting new game
+    else if (isAlive === false) startgameMessage();
   }
+
+  //If new card is called first time...........................................
   function firstNewCard() {
     if (isAlive === true && hasBlackJack === false) {
-      let newCard = randomCard();
-      sum += newCard;
-
-      //pushing third card in cards
-      cards.push(newCard);
-      //pushing new card image in images
-      images.push(
-        `<img src="card_images/${newCard}_${suit3}.png" alt="card${newCard}_${suit3}.png">  `
-      );
+      pushNewCard();
+      pushNewImage();
       temp2 = [...images];
-      //render the game again
       renderGame();
-      if (isAlive === false) {
-        images = [];
-        calledNewCard = false;
-      }
-    } else if (isAlive === false) {
-      message = "Please start the game first!";
-      messageEl.textContent = message;
-
-      if (isAlive === false) {
-        images = [];
-      }
-    }
+      if (isAlive === false) endingGame();
+    } else if (isAlive === false) startgameMessage();
   }
 }

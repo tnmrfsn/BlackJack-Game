@@ -7,11 +7,16 @@ body {
 }
 
 .container {
+  margin: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex-wrap: wrap;
+}
+
+.imageContainer {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .navbar {
@@ -23,6 +28,7 @@ body {
 h1,
 a {
   color: #02ffff;
+  margin: 4px;
 }
 p {
   color: azure;
@@ -56,9 +62,9 @@ p {
 }
 
 #cardImages img {
-  width: 200px;
-  height: 250px;
-  margin: 10px;
+  width: 120px;
+  height: 180px;
+  margin: 4px;
 }
 
 @media screen and (max-width: 640px) {
