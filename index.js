@@ -61,6 +61,8 @@ function endingGame() {
 
 //startGame funtion..............................
 function startGame() {
+  if (isAlive) endingGame();
+
   isAlive = true;
 
   let firstCard = randomCard();
@@ -83,6 +85,7 @@ function startGame() {
   //deleting the images[] so that before every start it is empty
   isStarted = true;
   if (isStarted) images = [];
+  isAlive = true;
 }
 
 //renderGame function..................................
@@ -110,15 +113,12 @@ function renderGame() {
 
 //newCard Function.........................................................
 function newCard() {
-  if (calledNewCard && isAlive) {
-    images = [...temp2];
-    firstNewCard();
-  } else {
-    notFirstNewCard();
-  }
+  //checking if it is the first new card of active player
+  if (calledNewCard && isAlive) notFirstNewCard();
+  else firstNewCard();
 
-  //When new card is called multiple times.....................................
-  function notFirstNewCard() {
+  //If new card is called first time...........................................
+  function firstNewCard() {
     if (isAlive === true && hasBlackJack === false) {
       pushNewCard();
       images = [...temp]; //retrieving the original images[] from startGame()
@@ -130,16 +130,17 @@ function newCard() {
 
       if (isAlive === false) endingGame();
     }
-    //If player tried new card ithout starting new game
+    //If player tried new card without starting new game
     else if (isAlive === false) startgameMessage();
   }
 
-  //If new card is called first time...........................................
-  function firstNewCard() {
+  //When new card is called multiple times.....................................
+  function notFirstNewCard() {
     if (isAlive === true && hasBlackJack === false) {
       pushNewCard();
       pushNewImage();
       temp2 = [...images];
+      calledNewCard = true;
       renderGame();
       if (isAlive === false) endingGame();
     } else if (isAlive === false) startgameMessage();
