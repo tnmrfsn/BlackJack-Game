@@ -19,9 +19,9 @@ let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
 let messageEl = document.getElementById("message-el");
 
-//function for generating random numbers 1 to 4 for suit for image names.........................
+//function for generating random numbers 1 to 3 for suit for image names.........................
 function randomSuit() {
-  let randomNumber = Math.floor(Math.random() * 2) + 1;
+  let randomNumber = Math.floor(Math.random() * 3) + 1;
   return randomNumber;
 }
 let suit1 = randomSuit();
