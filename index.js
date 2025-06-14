@@ -11,11 +11,6 @@ let player = {
 let cards = [];
 let images = [];
 let temp = [];
-//As I am pushing in images in start function,
-//images[] must be cleared or everytime I call startGame() it will keep growing.
-//But if I clear images[] in startGame(), then newCard() will get an emty image array;
-//so before clearing images[], it is copied in temp[]
-//and in newCard() it is copied back into images
 function randomCard() {
   let randomNumber = Math.floor(Math.random() * 13) + 1;
   return randomNumber;
