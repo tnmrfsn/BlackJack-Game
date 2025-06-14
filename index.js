@@ -111,7 +111,7 @@ function renderGame() {
     hasBlackJack = true;
     isAlive = false;
     console.log("BlackJack!!!");
-  } else if (sum > 21) {
+  } else {
     message = "You're out of the game!";
     isAlive = false;
     console.log("dead!!!");
