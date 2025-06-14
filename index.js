@@ -59,12 +59,18 @@ function startgameMessage() {
 function setInitialValues() {
   images = [];
   calledNewCard = false;
+  isAlive = false;
+  hasBlackJack = false;
+  isStarted = false;
 }
 
 //startGame funtion..............................
 function startGame() {
-  if (isAlive) setInitialValues(); //if player starts game after previous game new card but still alive.
-
+  if (isAlive) {
+    setInitialValues();
+    console.log("startGame being alive"); //if player starts game after previous game new card but still alive.
+  }
+  console.log("startGame");
   isAlive = true;
 
   let firstCard = randomCard();
@@ -87,7 +93,6 @@ function startGame() {
   //deleting the images[] so that before every start it is empty
   isStarted = true;
   if (isStarted) images = [];
-  isAlive = true;
 }
 
 //renderGame function..................................
@@ -105,9 +110,11 @@ function renderGame() {
     message = "You've got Blackjack!";
     hasBlackJack = true;
     isAlive = false;
-  } else {
+    console.log("BlackJack!!!");
+  } else if (sum > 21) {
     message = "You're out of the game!";
     isAlive = false;
+    console.log("dead!!!");
   }
 
   //displaying the message in html
@@ -117,35 +124,35 @@ function renderGame() {
 //newCard Function.........................................................
 function newCard() {
   //checking if it is the first new card of active player
-  if (calledNewCard && isAlive) notFirstNewCard();
-  else firstNewCard();
-
+  if (calledNewCard && isAlive && hasBlackJack === false) notFirstNewCard();
+  else if (calledNewCard === false && isAlive && hasBlackJack === false)
+    firstNewCard();
+  else if (
+    (isAlive === false && hasBlackJack == false) ||
+    hasBlackJack === true
+  ) {
+    console.log("newCard being dead");
+    setInitialValues();
+    startgameMessage();
+  }
   //If new card is called first time...........................................
   function firstNewCard() {
-    if (isAlive === true && hasBlackJack === false) {
-      pushNewCard();
-      images = [...temp]; //retrieving the original images[] from startGame()
-      pushNewImage();
-      temp2 = [...images]; //saving the images in temp2[] for multiple new card
-
-      calledNewCard = true; //tracking if it is the first new card.
-      renderGame();
-
-      if (isAlive === false) setInitialValues();
-    }
-    //If player tries new card without starting new game
-    else startgameMessage();
+    console.log("firstNewCard");
+    pushNewCard();
+    images = [...temp]; //retrieving the original images[] from startGame()
+    pushNewImage();
+    temp2 = [...images]; //saving the images in temp2[] for multiple new card
+    calledNewCard = true; //tracking if it is the first new card.
+    renderGame();
   }
 
   //When new card is called multiple times.....................................
   function notFirstNewCard() {
-    if (isAlive === true && hasBlackJack === false) {
-      pushNewCard();
-      pushNewImage();
-      temp2 = [...images];
-      calledNewCard = true;
-      renderGame();
-      if (isAlive === false) setInitialValues();
-    } else startgameMessage();
+    console.log("notFirstNewCard");
+    pushNewCard();
+    pushNewImage();
+    temp2 = [...images];
+    calledNewCard = true;
+    renderGame();
   }
 }
