@@ -45,7 +45,7 @@ function pushNewImage() {
   );
 }
 
-//when newCard is clicked by notAlive player.............
+//when newCard is clicked by dead player.............
 function startgameMessage() {
   message = "Please start the game first!";
   messageEl.textContent = message;
@@ -53,7 +53,7 @@ function startgameMessage() {
 }
 
 //Ending the game.............................
-function setInitialValues() {
+function gameOver() {
   images = [];
   calledNewCard = false;
   isAlive = false;
@@ -64,7 +64,7 @@ function setInitialValues() {
 //startGame funtion..............................
 function startGame() {
   if (isAlive) {
-    setInitialValues();
+    gameOver();
     console.log("startGame being alive"); //if player starts game after previous game new card but still alive.
   }
   console.log("startGame");
@@ -125,7 +125,7 @@ function newCard() {
   else if (!calledNewCard && isAlive && !hasBlackJack) firstNewCard();
   else {
     console.log("newCard being dead");
-    setInitialValues();
+    gameOver();
     startgameMessage();
   }
 
