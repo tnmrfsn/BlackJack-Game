@@ -48,14 +48,14 @@ function pushNewImage() {
   );
 }
 
-//displaying message when newCard is clicked by notAlive player.............
+//when newCard is clicked by notAlive player.............
 function startgameMessage() {
   message = "Please start the game first!";
   messageEl.textContent = message;
   images = [];
 }
 
-//Ending the game by deleting images[] and setting calledNewCard false.......
+//Ending the game.............................
 function setInitialValues() {
   images = [];
   calledNewCard = false;
@@ -88,7 +88,7 @@ function startGame() {
   renderGame();
 
   //cpoying images[] in temp[] using spread operator before deleting
-  temp = [...images];
+  temp1 = [...images];
 
   //deleting the images[] so that before every start it is empty
   isStarted = true;
@@ -136,7 +136,7 @@ function newCard() {
   function firstNewCard() {
     console.log("firstNewCard");
     pushNewCard();
-    images = [...temp]; //retrieving the original images[] from startGame()
+    images = [...temp1]; //retrieving the original images[] from startGame()
     pushNewImage();
     temp2 = [...images]; //saving the images in temp2[] for multiple new card
     calledNewCard = true; //tracking if it is the first new card.
