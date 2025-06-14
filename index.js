@@ -11,13 +11,12 @@ let player = {
 
 let cards = [];
 let images = [];
-let temp1 = [];
-let temp2 = []; //As I am pushing in images in start function,
+let temp = [];
+//As I am pushing in images in start function,
 //images[] must be cleared or everytime I call startGame() it will keep growing.
 //But if I clear images[] in startGame(), then newCard() will get an emty image array;
-//so before clearing images[], it is copied in temp1[]
+//so before clearing images[], it is copied in temp[]
 //and in newCard() it is copied back into images
-//temp2[] is for when newCard() is called multiple times.
 
 //getting access to DOM elements
 let cardResult = document.getElementById("cardResult");
@@ -88,7 +87,7 @@ function startGame() {
   renderGame();
 
   //cpoying images[] in temp[] using spread operator before deleting
-  temp1 = [...images];
+  temp = [...images];
 
   //deleting the images[] so that before every start it is empty
   isStarted = true;
@@ -136,10 +135,9 @@ function newCard() {
   function firstNewCard() {
     console.log("firstNewCard");
     pushNewCard();
-    images = [...temp1]; //retrieving the original images[] from startGame()
+    images = [...temp]; //retrieving the original images[] from startGame()
     pushNewImage();
-    temp2 = [...images]; //saving the images in temp2[] for multiple new card
-    calledNewCard = true; //tracking if it is the first new card.
+    calledNewCard = true;
     renderGame();
   }
 
@@ -148,7 +146,6 @@ function newCard() {
     console.log("notFirstNewCard");
     pushNewCard();
     pushNewImage();
-    temp2 = [...images];
     calledNewCard = true;
     renderGame();
   }
