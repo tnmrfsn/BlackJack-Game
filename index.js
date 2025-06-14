@@ -127,7 +127,7 @@ function newCard() {
   if (calledNewCard && isAlive && hasBlackJack === false) notFirstNewCard();
   else if (calledNewCard === false && isAlive && hasBlackJack === false)
     firstNewCard();
-  else if (isAlive === false || hasBlackJack === true) {
+  else {
     console.log("newCard being dead");
     setInitialValues();
     startgameMessage();
