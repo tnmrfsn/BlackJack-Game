@@ -8,10 +8,15 @@ let player = {
   name: "Player",
   chips: 500,
 };
-
 let cards = [];
 let images = [];
 let temp = [];
+function randomCard() {
+  let randomNumber = Math.floor(Math.random() * 13) + 1;
+  return randomNumber;
+}
+let cardNew = randomCard();
+
 //As I am pushing in images in start function,
 //images[] must be cleared or everytime I call startGame() it will keep growing.
 //But if I clear images[] in startGame(), then newCard() will get an emty image array;
@@ -24,12 +29,6 @@ let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
 let messageEl = document.getElementById("message-el");
 let playerName = document.getElementById("playerName");
-
-function randomCard() {
-  let randomNumber = Math.floor(Math.random() * 13) + 1;
-  return randomNumber;
-}
-let cardNew = randomCard();
 
 function randomSuit() {
   let randomNumber = Math.floor(Math.random() * 4) + 1;
@@ -130,6 +129,7 @@ function newCard() {
     setInitialValues();
     startgameMessage();
   }
+
   //If new card is called first time...........................................
   function firstNewCard() {
     console.log("firstNewCard");
