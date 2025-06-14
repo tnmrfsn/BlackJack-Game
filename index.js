@@ -17,7 +17,7 @@ function randomCard() {
 }
 let cardNew = randomCard();
 
-//getting access to DOM elements
+//access to DOM elements
 let cardResult = document.getElementById("cardResult");
 let sumEl = document.getElementById("sum-el");
 let cardImages = document.getElementById("cardImages");
@@ -40,7 +40,7 @@ function pushNewImage() {
   );
 }
 
-//when newCard is clicked by dead player.............
+//newCard is clicked by dead player.............
 function startgameMessage() {
   message = "Please start the game first!";
   messageEl.textContent = message;
@@ -79,7 +79,7 @@ function startGame() {
 
   renderGame();
 
-  //cpoying images[] in temp[] using spread operator before deleting
+  //cpoying images[] in temp[] before deleting
   temp = [...images];
 
   //deleting the images[] so that before every start it is empty
@@ -89,7 +89,7 @@ function startGame() {
 
 //renderGame function..................................
 function renderGame() {
-  //displaying cardResult, sum and cardImage in html
+  //display in html
   cardResult.textContent = `Card: ${cards.join(",")}`;
   sumEl.textContent = `Sum: ${sum}`;
   cardImages.innerHTML = images.join(" ");
@@ -109,13 +109,13 @@ function renderGame() {
     console.log("dead!!!");
   }
 
-  //displaying the message in html
+  //display message in html
   messageEl.textContent = message;
 }
 
 //newCard Function.........................................................
 function newCard() {
-  //checking if it is the first new card of active player
+  //is it the first new card of active player?
   if (calledNewCard && isAlive && !hasBlackJack) notFirstNewCard();
   else if (!calledNewCard && isAlive && !hasBlackJack) firstNewCard();
   else {
@@ -124,7 +124,7 @@ function newCard() {
     startgameMessage();
   }
 
-  //If new card is called first time...........................................
+  //new card is called first time...........................................
   function firstNewCard() {
     console.log("firstNewCard");
     pushNewCard();
@@ -134,7 +134,7 @@ function newCard() {
     renderGame();
   }
 
-  //When new card is called multiple times.....................................
+  //new card is called multiple times.....................................
   function notFirstNewCard() {
     console.log("notFirstNewCard");
     pushNewCard();
