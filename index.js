@@ -123,9 +123,8 @@ function renderGame() {
 //newCard Function.........................................................
 function newCard() {
   //checking if it is the first new card of active player
-  if (calledNewCard && isAlive && hasBlackJack === false) notFirstNewCard();
-  else if (calledNewCard === false && isAlive && hasBlackJack === false)
-    firstNewCard();
+  if (calledNewCard && isAlive && !hasBlackJack) notFirstNewCard();
+  else if (!calledNewCard && isAlive && !hasBlackJack) firstNewCard();
   else {
     console.log("newCard being dead");
     setInitialValues();
