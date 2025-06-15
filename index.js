@@ -185,8 +185,9 @@ function newCard() {
     renderGame();
   } else {
     console.log("newCard being dead or blackjack");
-    // Consider if gameOver() and startgameMessage() are appropriate here
-    // For now, let's prevent drawing new cards if game is over
+    gameOver();
+    startgameMessage();
+    //prevent drawing new cards if game is over
     if (!isAlive) {
         // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
         message = "Game Over. Start a new game.";
@@ -195,5 +196,3 @@ function newCard() {
   }
 }
 
-// The individual firstNewCard and notFirstNewCard functions are merged into newCard above.
-// If they were more complex, keeping them separate might be better.
