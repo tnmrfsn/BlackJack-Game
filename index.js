@@ -43,6 +43,20 @@ function getCardValue(cardNumber) {
     }
 }
 
+function getCardDisplayName(cardNumber) {
+  if (cardNumber === 1) {
+    return "Ace";
+  } else if (cardNumber === 11) {
+    return "Jack";
+  } else if (cardNumber === 12) {
+    return "Queen";
+  } else if (cardNumber === 13) {
+    return "King";
+  } else {
+    return String(cardNumber); // For cards 2-10
+  }
+}
+
 // --- Utility / Data Update Functions ---
 function pushNewCard() {
   // sum += cardNew; // Sum is now calculated in newCard flow using getCardValue
@@ -133,7 +147,7 @@ function startGame() {
 //renderGame function..................................
 function renderGame() {
   //display in html
-  cardResult.textContent = `Card: ${cards.join(",")}`;
+  cardResult.textContent = `Card: ${cards.map(card => getCardDisplayName(card)).join(", ")}`;
   sumEl.textContent = `Sum: ${sum}`;
   cardImages.innerHTML = images.join(" ");
   playerName.textContent = `${player.name} : \$${player.chips}`;
@@ -185,10 +199,8 @@ function newCard() {
     renderGame();
   } else {
     console.log("newCard being dead or blackjack");
-    gameOver();
-    startgameMessage();
-    //prevent drawing new cards if game is over
-
+    // Consider if gameOver() and startgameMessage() are appropriate here
+    // For now, let's prevent drawing new cards if game is over
     if (!isAlive) {
         // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
         message = "Game Over. Start a new game.";
@@ -197,4 +209,5 @@ function newCard() {
   }
 }
 
-
+// The individual firstNewCard and notFirstNewCard functions are merged into newCard above.
+// If they were more complex, keeping them separate might be better.
