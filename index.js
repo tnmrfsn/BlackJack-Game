@@ -1,36 +1,51 @@
 let isAlive = false;
 let hasBlackJack = false;
-let isStarted = false;
-let calledNewCard = false;
+// let isStarted = false; // Removed
+// let calledNewCard = false; // Removed
 let sum = 0;
+let acesAsEleven = 0; // Tracks number of Aces counted as 11
 let message = "";
 let player = {
   name: "Player",
   chips: 500,
 };
-let cards = [];
-let images = [];
-let temp = [];
+let cards = []; // Array to store the numbers of the cards player has
+let images = []; // Array to store HTML string for card images to display
+// let currentCardImages = []; // Removed (formerly temp)
+let cardNew = randomCard(); // Holds the newest card drawn
+
+// --- DOM Element Access ---
+const cardResult = document.getElementById("cardResult");
+const sumEl = document.getElementById("sum-el");
+const cardImages = document.getElementById("cardImages");
+const messageEl = document.getElementById("message-el");
+const playerName = document.getElementById("playerName");
+
+// --- Card Generation & Value Helpers ---
 function randomCard() {
   let randomNumber = Math.floor(Math.random() * 13) + 1;
   return randomNumber;
 }
-let cardNew = randomCard();
-
-//access to DOM elements
-let cardResult = document.getElementById("cardResult");
-let sumEl = document.getElementById("sum-el");
-let cardImages = document.getElementById("cardImages");
-let messageEl = document.getElementById("message-el");
-let playerName = document.getElementById("playerName");
 
 function randomSuit() {
   let randomNumber = Math.floor(Math.random() * 4) + 1;
   return randomNumber;
 }
 
+// Helper function to get card value
+function getCardValue(cardNumber) {
+    if (cardNumber === 1) {
+        return 11 // Ace
+    } else if (cardNumber >= 11 && cardNumber <= 13) {
+        return 10 // Jack, Queen, King
+    } else {
+        return cardNumber
+    }
+}
+
+// --- Utility / Data Update Functions ---
 function pushNewCard() {
-  sum += cardNew;
+  // sum += cardNew; // Sum is now calculated in newCard flow using getCardValue
   cards.push(cardNew);
 }
 
@@ -40,33 +55,69 @@ function pushNewImage() {
   );
 }
 
-//newCard is clicked by dead player.............
+// --- Game State & Initialization ---
+//Called when newCard is clicked by a dead player or before game starts
 function startgameMessage() {
   message = "Please start the game first!";
   messageEl.textContent = message;
   images = [];
 }
 
-//Ending the game.............................
+//Resets game variables for a new game or when game ends
 function gameOver() {
-  images = [];
-  calledNewCard = false;
+  images = []; // Clear displayed card images
+  cards = []; // Clear player's cards
+  // calledNewCard = false; // Removed
   isAlive = false;
   hasBlackJack = false;
-  isStarted = false;
+  // isStarted = false; // Removed
+  sum = 0; // Explicitly reset sum, though it's recalculated in startGame
+  acesAsEleven = 0; // Explicitly reset aces, though it's recalculated in startGame
 }
 
-//startGame funtion..............................
+//startGame function: Initializes a new game
 function startGame() {
   if (isAlive) {
+    // If a game is already in progress and player is alive (e.g. clicked start game mid-game)
+    // If a game is already in progress and player is alive (e.g. clicked start game mid-game),
+    // gameOver() will reset relevant states including sum, acesAsEleven, cards, images.
     gameOver();
-    console.log("startGame being alive"); //if player starts game after previous game new card but still alive.
+    console.log("startGame being alive called gameOver()");
   }
+  // For a fresh game or after gameOver() has run:
   console.log("startGame");
-  isAlive = true;
+
+  isAlive = true; // Player is now active for the new game
+  hasBlackJack = false; // Reset blackjack status
+
+  // Initialize game variables for the new hand
+  cards = [];
+  images = [];
+  sum = 0;
+  acesAsEleven = 0;
 
   let firstCard = randomCard();
   let secondCard = randomCard();
+
+  // Add cards to hand
+  cards.push(firstCard);
+  cards.push(secondCard);
+
+  // Process first card
+  let firstCardValue = getCardValue(firstCard);
+  if (firstCardValue === 11) {
+    acesAsEleven++;
+  }
+  sum += firstCardValue;
+
+  // Process second card
+  let secondCardValue = getCardValue(secondCard);
+  if (secondCardValue === 11) {
+    acesAsEleven++;
+  }
+  sum += secondCardValue;
+
+  // Add images for the cards
   images.push(
     `<img src="card_images/${firstCard}_${randomSuit()}.png" alt="card${firstCard}_${randomSuit()}.png">  `
   );
@@ -74,17 +125,9 @@ function startGame() {
     `<img src="card_images/${secondCard}_${randomSuit()}.png" alt="card${secondCard}_${randomSuit()}.png">  `
   );
 
-  cards = [firstCard, secondCard];
-  sum = firstCard + secondCard;
-
   renderGame();
-
-  //cpoying images[] in temp[] before deleting
-  temp = [...images];
-
-  //deleting the images[] so that before every start it is empty
-  isStarted = true;
-  if (isStarted) images = [];
+  // Note: currentCardImages and isStarted logic removed.
+  // images array now persists with the hand's cards.
 }
 
 //renderGame function..................................
@@ -94,6 +137,17 @@ function renderGame() {
   sumEl.textContent = `Sum: ${sum}`;
   cardImages.innerHTML = images.join(" ");
   playerName.textContent = `${player.name} : \$${player.chips}`;
+
+  // Ace adjustment logic: If sum is over 21 and player has Aces counted as 11,
+  // change their value to 1 until sum is 21 or less, or no more such Aces.
+  while (sum > 21 && acesAsEleven > 0) {
+    sum -= 10; // Change an Ace's value from 11 to 1
+    acesAsEleven--; // Decrement the count of Aces valued at 11
+    console.log("Adjusted Ace from 11 to 1. New sum:", sum, "Aces as eleven:", acesAsEleven);
+  }
+  // Update sum display after potential Ace adjustment
+  sumEl.textContent = `Sum: ${sum}`;
+
 
   //checking the sum and udating message
   if (sum <= 20) {
@@ -113,33 +167,33 @@ function renderGame() {
   messageEl.textContent = message;
 }
 
-//newCard Function.........................................................
+// --- Core Game Flow ---
+//newCard Function: Draws a new card for the player
 function newCard() {
-  //is it the first new card of active player?
-  if (calledNewCard && isAlive && !hasBlackJack) notFirstNewCard();
-  else if (!calledNewCard && isAlive && !hasBlackJack) firstNewCard();
-  else {
-    console.log("newCard being dead");
-    gameOver();
-    startgameMessage();
-  }
+  // Player can only draw a new card if they are alive and don't have Blackjack
+  if (isAlive && !hasBlackJack) {
+    cardNew = randomCard(); // Draw a new card
+    let cardValue = getCardValue(cardNew);
+    if (cardValue === 11) {
+      acesAsEleven++;
+    }
+    sum += cardValue;
 
-  //new card is called first time...........................................
-  function firstNewCard() {
-    console.log("firstNewCard");
-    pushNewCard();
-    images = [...temp]; //retrieving the original images[] from startGame()
-    pushNewImage();
-    calledNewCard = true;
-    renderGame();
-  }
+    pushNewCard(); // Adds cardNew to cards array
+    pushNewImage(); // Adds new image to images array
 
-  //new card is called multiple times.....................................
-  function notFirstNewCard() {
-    console.log("notFirstNewCard");
-    pushNewCard();
-    pushNewImage();
-    calledNewCard = true;
     renderGame();
+  } else {
+    console.log("newCard being dead or blackjack");
+    // Consider if gameOver() and startgameMessage() are appropriate here
+    // For now, let's prevent drawing new cards if game is over
+    if (!isAlive) {
+        // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
+        message = "Game Over. Start a new game.";
+        messageEl.textContent = message;
+    }
   }
 }
+
+// The individual firstNewCard and notFirstNewCard functions are merged into newCard above.
+// If they were more complex, keeping them separate might be better.
