@@ -34,13 +34,13 @@ function randomSuit() {
 
 // Helper function to get card value
 function getCardValue(cardNumber) {
-    if (cardNumber === 1) {
-        return 11 // Ace
-    } else if (cardNumber >= 11 && cardNumber <= 13) {
-        return 10 // Jack, Queen, King
-    } else {
-        return cardNumber
-    }
+  if (cardNumber === 1) {
+    return 11; // Ace
+  } else if (cardNumber >= 11 && cardNumber <= 13) {
+    return 10; // Jack, Queen, King
+  } else {
+    return cardNumber;
+  }
 }
 
 function getCardDisplayName(cardNumber) {
@@ -147,7 +147,9 @@ function startGame() {
 //renderGame function..................................
 function renderGame() {
   //display in html
-  cardResult.textContent = `Card: ${cards.map(card => getCardDisplayName(card)).join(", ")}`;
+  cardResult.textContent = `Card: ${cards
+    .map((card) => getCardDisplayName(card))
+    .join(", ")}`;
   sumEl.textContent = `Sum: ${sum}`;
   cardImages.innerHTML = images.join(" ");
   playerName.textContent = `${player.name} : \$${player.chips}`;
@@ -157,11 +159,15 @@ function renderGame() {
   while (sum > 21 && acesAsEleven > 0) {
     sum -= 10; // Change an Ace's value from 11 to 1
     acesAsEleven--; // Decrement the count of Aces valued at 11
-    console.log("Adjusted Ace from 11 to 1. New sum:", sum, "Aces as eleven:", acesAsEleven);
+    console.log(
+      "Adjusted Ace from 11 to 1. New sum:",
+      sum,
+      "Aces as eleven:",
+      acesAsEleven
+    );
   }
   // Update sum display after potential Ace adjustment
   sumEl.textContent = `Sum: ${sum}`;
-
 
   //checking the sum and udating message
   if (sum <= 20) {
@@ -199,12 +205,13 @@ function newCard() {
     renderGame();
   } else {
     console.log("newCard being dead or blackjack");
-    // Consider if gameOver() and startgameMessage() are appropriate here
-    // For now, let's prevent drawing new cards if game is over
+    gameOver();
+    startgameMessage();
+    //prevent drawing new cards if game is over
     if (!isAlive) {
-        // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
-        message = "Game Over. Start a new game.";
-        messageEl.textContent = message;
+      // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
+      message = "Game Over! Please start a new game.";
+      messageEl.textContent = message;
     }
   }
 }
