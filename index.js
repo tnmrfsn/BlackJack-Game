@@ -188,6 +188,7 @@ function newCard() {
     gameOver();
     startgameMessage();
     //prevent drawing new cards if game is over
+
     if (!isAlive) {
         // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
         message = "Game Over. Start a new game.";
@@ -195,4 +196,5 @@ function newCard() {
     }
   }
 }
+
 
