@@ -209,8 +209,7 @@ function newCard() {
     startgameMessage();
     //prevent drawing new cards if game is over
     if (!isAlive) {
-      // startgameMessage(); // Or a more specific message like "Game Over. Start a new game."
-      message = "Game Over! Please start a new game.";
+      startgameMessage();
       messageEl.textContent = message;
     }
   }
